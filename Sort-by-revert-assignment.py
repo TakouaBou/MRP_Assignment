@@ -14,20 +14,18 @@ class Reverter:
             init (bool, optional): if True, the array is initialized with value 1..size, the shuffled, else, the array
             remains empty (it is used to clone the array). Defaults to True.
         """
+        # Initialize g, h and f
+        self.g = 0
+        self.h = 0
+        self.f = 0
         if init:
             self.table=list(range(1,size+1))
             random.shuffle(self.table)
             self.hash()
             self.parent=None
-            self.g = 0
-            self.h = self.heuristic() # or heuristic3()
-            self.f = self.g + self.h
+            
         else:
             self.table=[]
-            # Initialize g, h and f to None when init is False
-            self.g = None
-            self.h = None
-            self.f = None
 
     def __str__(self) -> str:
         """returns a string representation of the object Reverter
@@ -209,6 +207,8 @@ class Reverter:
         
     def solveHeuristic1(self) -> Optional[Reverter]:
         """This method implements heuristic search (heuristic n° 1: g = 0, h : pour chaque élément, calculer la somme du nombre d éléments supérieurs à gauche et le nombre d éléments inférieurs à droite.)"""
+        self.h = self.heuristic()
+        # self.f = self.g + self.h
         OUVERT = [self]
         FERME = []
         while OUVERT:
@@ -226,6 +226,9 @@ class Reverter:
         return None
     def solveHeuristic2(self) -> Optional[Reverter]:
         """This method implements heuristic search (heuristic n° 2: g = profondeur et h identique au cas précédent.)"""
+        self.h = self.heuristic()
+        self.f = self.g + self.h
+
         OUVERT = [self]
         FERME = []
         while OUVERT:
@@ -245,12 +248,14 @@ class Reverter:
     def solveHeuristic3(self) ->Optional[Reverter]:
         """This method implements heuristic search (proposed heuristic)"""
         self.h = self.heuristic3()
+        # self.f = self.g + self.h
+
         OUVERT = [self]
         FERME = []
 
         while OUVERT:
             # Change the initialisation of h in init to heuristic 3
-            current_node = min(OUVERT, key=lambda x: x.f, default=None)# Select the node with the lowest f value
+            current_node = min(OUVERT, key=lambda x: x.h, default=None)# Select the node with the lowest f value
             if current_node is None:
                 return None  # No solution found  
             OUVERT.remove(current_node)
