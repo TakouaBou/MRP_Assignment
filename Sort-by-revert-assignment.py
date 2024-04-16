@@ -14,10 +14,7 @@ class Reverter:
             init (bool, optional): if True, the array is initialized with value 1..size, the shuffled, else, the array
             remains empty (it is used to clone the array). Defaults to True.
         """
-        # Initialize g, h and f
-        self.g = 0
-        self.h = 0
-        self.f = 0
+        
         if init:
             self.table=list(range(1,size+1))
             random.shuffle(self.table)
@@ -26,7 +23,10 @@ class Reverter:
             
         else:
             self.table=[]
-
+        # Initialize g, h and f
+        self.g = 0
+        self.h = 0
+        self.f = 0
     def __str__(self) -> str:
         """returns a string representation of the object Reverter
 
@@ -61,9 +61,6 @@ class Reverter:
         for i in range(1,len(self.table)):
             if self.table[i-1]>self.table[i]:return False
         return True
-
-    # def is_the_goal(self) -> bool:
-    #     return all(self.table[i] <= self.table[i+1] for i in range(len(self.table)-1))
 
     def clone(self) -> Reverter:
         """This methods create a copy of the current object
@@ -268,65 +265,46 @@ class Reverter:
                     OUVERT.append(successor)
         return None
        
-size=8#8,...,15,...
+size=10#8,...,15,...
 rev=Reverter(size,True)
 print("Tableau initial :", rev)
-# print("g = ", rev.g," h = ", rev.h," f = ", rev.f)
 
-# res = rev.actions()
+# start_time_1 = time.time()*1000
+# r1 = rev.solveBreadth()
+# end_time_1 = time.time()*1000
 
-# sz=len(rev.table)-1
-# for i in range(sz):
-#     print(res[i], res[i].g)
+# start_time_2 = time.time()*1000
+# r2 = rev.solveDepth()
+# end_time_2 = time.time()*1000
 
-start_time_1 = time.time()*1000
-r1 = rev.solveBreadth()
-end_time_1 = time.time()*1000
+# start_time_3 = time.time()*1000
+# r3 = rev.solveRandom()
+# end_time_3 = time.time()*1000
 
-start_time_2 = time.time()*1000
-r2 = rev.solveDepth()
-end_time_2 = time.time()*1000
+# start_time_4 = time.time()*1000
+# r4 = rev.solveHeuristic1()
+# end_time_4 = time.time()*1000
 
-start_time_3 = time.time()*1000
-r3 = rev.solveRandom()
-end_time_3 = time.time()*1000
-
-start_time_4 = time.time()*1000
-r4 = rev.solveHeuristic1()
-end_time_4 = time.time()*1000
-
-start_time_5 = time.time()*1000
-r5 = rev.solveHeuristic2()
-end_time_5 = time.time()*1000
+# start_time_5 = time.time()*1000
+# r5 = rev.solveHeuristic2()
+# end_time_5 = time.time()*1000
 
 start_time_6 = time.time()*1000
 r6 = rev.solveHeuristic3()
 end_time_6 = time.time()*1000
 
 print("\nResults:")
-print("{:<15} {:<30} {:<20} {:<20} {:<20} {:<10} {:<10} {:<10}".format("Method", "Sorted Table", "OUVERT Size", "FERME Size","time (ms)", "g", "h", "f"))
+print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Method", "Sorted Table", "OUVERT Size", "FERME Size","time (ms)"))
 print("-" * 135)
-time1 = int(end_time_1 - start_time_1)
-print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Breadth First", str(r1[0]), len(r1[1]), len(r1[2]), time1))
-time2 = int(end_time_2 - start_time_2)
-print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Depth First", str(r2[0]), len(r2[1]), len(r2[2]), time2))
-time3 = int(end_time_3 - start_time_3)
-print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Random", str(r3[0]), len(r3[1]), len(r3[2]), time3))
-time4 = int(end_time_4 - start_time_4)
-print("{:<15} {:<30} {:<20} {:<20} {:<20} {:<10} {:<10} {:<10}".format("Heuristic 1", str(r4[0]), len(r4[1]), len(r4[2]),time4, r4[0].g, r4[0].h, r4[0].f))
-time5 = int(end_time_5 - start_time_5)
-print("{:<15} {:<30} {:<20} {:<20} {:<20} {:<10} {:<10} {:<10}".format("Heuristic 2", str(r5[0]), len(r5[1]), len(r5[2]),time5, r5[0].g, r5[0].h, r5[0].f))
+# time1 = int(end_time_1 - start_time_1)
+# print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Breadth First", str(r1[0]), len(r1[1]), len(r1[2]), time1))
+# time2 = int(end_time_2 - start_time_2)
+# print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Depth First", str(r2[0]), len(r2[1]), len(r2[2]), time2))
+# time3 = int(end_time_3 - start_time_3)
+# print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Random", str(r3[0]), len(r3[1]), len(r3[2]), time3))
+# time4 = int(end_time_4 - start_time_4)
+# print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Heuristic 1", str(r4[0]), len(r4[1]), len(r4[2]),time4))
+# time5 = int(end_time_5 - start_time_5)
+# print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Heuristic 2", str(r5[0]), len(r5[1]), len(r5[2]),time5))
 time6 = int(end_time_6 - start_time_6)
-print("{:<15} {:<30} {:<20} {:<20} {:<20} {:<10} {:<10} {:<10}".format("Heuristic 3", str(r6[0]), len(r6[1]), len(r6[2]),time6, r6[0].g, r6[0].h, r6[0].f))
-
-
-
-# FERME = r6[2]
-# print("Contenu de l'ensemble ferme :")
-# for state in FERME:
-#     print(state)
- 
-# OUVERT = r6[1]
-# print("Contenu de l'ensemble ouvert :")
-# for state in OUVERT:
-#     print(state)
+print("{:<15} {:<30} {:<20} {:<20} {:<20}".format("Heuristic 3", str(r6[0]), len(r6[1]), len(r6[2]),time6))
